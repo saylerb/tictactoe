@@ -10,12 +10,13 @@ import static org.mockito.Mockito.mock;
 public class GameTest {
 
     @Test
-    public void shouldCallDisplayGridMethodOnStart() {
-
+    public void shouldDisplayFirstRowOnStart() {
         PrintStream stream = mock(PrintStream.class);
 
         Game game = new Game(stream);
 
-        verify(game).displayGrid();
+        game.displayGrid();
+
+        verify(stream).println("1|2|3");
     }
 }
