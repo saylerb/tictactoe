@@ -1,5 +1,7 @@
 package tictactoe;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -7,10 +9,13 @@ import java.util.Map;
 public class Game {
     private PrintStream stream;
     private Map<Integer, String> grid;
+    private BufferedReader reader;
+    private Integer lastInput;
 
-    public Game(PrintStream stream) {
-       this.stream = stream;
-       this.grid = buildGrid();
+    public Game(PrintStream stream, BufferedReader reader) {
+        this.stream = stream;
+        this.grid = buildGrid();
+        this.reader = reader;
     }
 
     private Map<Integer, String> buildGrid() {
@@ -33,14 +38,30 @@ public class Game {
     public void start() {
         displayGrid();
         promptUser();
+        getUserInput();
     }
 
     public void promptUser() {
         stream.println("Please enter a number: ");
     }
+
+    public void getUserInput() {
+        try {
+            lastInput = Integer.parseInt(reader.readLine());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (lastInput > 0) {
+            grid.put(lastInput, "X");
+            displayGrid();
+        }
+
+    }
+
     public void displayGrid() {
         for (Integer key : grid.keySet()) {
-            stream.print(key);
+            stream.print(grid.get(key));
 
             if (key % 3 == 0) {
                 stream.println();
@@ -49,11 +70,6 @@ public class Game {
                 stream.print("|");
             }
         }
-
-
-        //stream.println("1|2|3");
-        //stream.println("4|5|6");
-        //stream.println("7|8|9");
     }
 
 }
