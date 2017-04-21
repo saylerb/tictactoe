@@ -11,6 +11,8 @@ public class Game {
 
     public void displayGrid() {
         stream.println("1|2|3");
+        stream.println("4|5|6");
+        stream.println("7|8|9");
     }
 
 }
