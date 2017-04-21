@@ -9,24 +9,33 @@ public class Game {
     private Grid grid;
     private BufferedReader reader;
     private Integer lastInput;
+    private Integer currentPlayer;
+    private GameRunning gameRunning;
 
-    public Game(PrintStream stream, BufferedReader reader, Grid grid) {
+    public Game(PrintStream stream, BufferedReader reader, Grid grid, GameRunning gameRunning) {
         this.stream = stream;
         this.grid = grid;
         this.reader = reader;
+        this.currentPlayer = 1;
+        this.gameRunning = gameRunning;
     }
 
     public void start() {
-        grid.print();
-        promptUser();
-        getUserInput();
+        gameRunning.startGame();
+
+        while (gameRunning.isRunning()) {
+            grid.print();
+            promptUser();
+            getUserInput();
+            currentPlayer = getNextPlayer();
+        }
     }
 
     public void promptUser() {
-        stream.println("Please enter a number: ");
+        stream.println("Player " + currentPlayer + " please enter a number: ");
     }
 
-    public void getUserInput() {
+    private void getUserInput() {
         try {
             lastInput = Integer.parseInt(reader.readLine());
         } catch (IOException e) {
@@ -34,12 +43,23 @@ public class Game {
         }
 
         if (lastInput > 0) {
-            grid.changeValue(lastInput, "X");
-            grid.print();
+            grid.changeValue(lastInput, currentPlayerValue());
         }
-
     }
 
+    private Integer getNextPlayer() {
+        if (currentPlayer == 1) {
+            return 2;
+        } else {
+            return 1;
+        }
+    }
 
-
+    private String currentPlayerValue() {
+        if (currentPlayer == 1) {
+            return "X";
+        } else {
+            return "O";
+        }
+    }
 }
