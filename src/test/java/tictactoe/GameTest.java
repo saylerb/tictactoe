@@ -6,22 +6,24 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
 
 public class GameTest {
 
     @Test
-    public void shouldDisplayAllRowsOnStart() throws IOException {
+    public void shouldDisplayGridOnStart() throws IOException {
         PrintStream stream = mock(PrintStream.class);
         BufferedReader reader = mock(BufferedReader.class);
 
-        Game game = new Game(stream, reader);
+        Grid grid = mock(Grid.class);
+        Game game = new Game(stream, reader, grid);
 
         when(reader.readLine()).thenReturn("0");
         game.start();
 
-        verify(stream, times(3)).println();
-        verify(stream, times(6)).print("|");
+        verify(grid).print();
     }
 
     @Test
@@ -30,7 +32,8 @@ public class GameTest {
         PrintStream stream = mock(PrintStream.class);
         BufferedReader reader = mock(BufferedReader.class);
 
-        Game game = new Game(stream, reader);
+        Grid grid = new Grid(stream);
+        Game game = new Game(stream, reader, grid);
 
         when(reader.readLine()).thenReturn("0");
 
@@ -43,7 +46,8 @@ public class GameTest {
     public void shouldDrawUserSelectionToGrid() throws IOException {
         PrintStream stream = mock(PrintStream.class);
         BufferedReader reader = mock(BufferedReader.class);
-        Game game = new Game(stream, reader);
+        Grid grid = new Grid(stream);
+        Game game = new Game(stream, reader, grid);
 
         when(reader.readLine()).thenReturn("1");
 
