@@ -1,5 +1,6 @@
 package tictactoe;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.BufferedReader;
@@ -11,30 +12,29 @@ import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 
 public class GameTest {
+    private Game game;
+    private Grid grid;
+    private PrintStream stream;
+    private BufferedReader reader;
 
+    @Before
+    public void setup() {
+        stream = mock(PrintStream.class);
+        reader = mock(BufferedReader.class);
+        grid = mock(Grid.class);
+        game = new Game(stream, reader, grid);
+    }
     @Test
     public void shouldDisplayGridOnStart() throws IOException {
-        PrintStream stream = mock(PrintStream.class);
-        BufferedReader reader = mock(BufferedReader.class);
-
-        Grid grid = mock(Grid.class);
-        Game game = new Game(stream, reader, grid);
-
         when(reader.readLine()).thenReturn("0");
+
         game.start();
 
         verify(grid).print();
     }
 
     @Test
-
     public void shouldPromptTheUserToEnterNumberOnStart() throws IOException {
-        PrintStream stream = mock(PrintStream.class);
-        BufferedReader reader = mock(BufferedReader.class);
-
-        Grid grid = new Grid(stream);
-        Game game = new Game(stream, reader, grid);
-
         when(reader.readLine()).thenReturn("0");
 
         game.start();
@@ -43,18 +43,11 @@ public class GameTest {
     }
 
     @Test
-    public void shouldDrawUserSelectionToGrid() throws IOException {
-        PrintStream stream = mock(PrintStream.class);
-        BufferedReader reader = mock(BufferedReader.class);
-        Grid grid = new Grid(stream);
-        Game game = new Game(stream, reader, grid);
-
+    public void shouldMutateGridAfterUserMakesSelection() throws IOException {
         when(reader.readLine()).thenReturn("1");
 
         game.start();
 
-        verify(stream).print("X");
+        verify(grid).changeValue(1, "X");
     }
-
-
 }
