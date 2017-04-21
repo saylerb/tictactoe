@@ -22,6 +22,18 @@ public class GameTest {
         verify(stream, times(6)).print("|");
     }
 
+    @Test
+
+    public void shouldPromptTheUserToEnterNumberOnStart() {
+        PrintStream stream = mock(PrintStream.class);
+
+        Game game = new Game(stream);
+
+        game.start();
+
+        verify(stream).println("Please enter a number: ");
+    }
+
 
 
 }

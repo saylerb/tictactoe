@@ -32,8 +32,12 @@ public class Game {
 
     public void start() {
         displayGrid();
+        promptUser();
     }
 
+    public void promptUser() {
+        stream.println("Please enter a number: ");
+    }
     public void displayGrid() {
         for (Integer key : grid.keySet()) {
             stream.print(key);
